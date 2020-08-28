@@ -3,6 +3,7 @@ import { GraphQLServer } from 'graphql-yoga';
 // Type definitions (schema)
 const typeDefs = `
   type Query {
+    add(num1: Float!, num2: Float!): Float!
     me: User!
     post: Post!
   }
@@ -24,6 +25,11 @@ const typeDefs = `
 // Resolves
 const resolvers = {
   Query: {
+    add(parent, args, ctx, info) {
+      if (args.num1 && args.num2) {
+        return args.num1 + args.num2;
+      }
+    },
     me() {
       return {
         id: "1957",
