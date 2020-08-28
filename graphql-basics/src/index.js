@@ -3,22 +3,41 @@ import { GraphQLServer } from 'graphql-yoga';
 // Type definitions (schema)
 const typeDefs = `
   type Query {
-    hello: String!
+    me: User!
+    post: Post!
+  }
+
+  type User {
+    id: ID!
     name: String!
     email: String!
+    age: Int
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    publish: Boolean!
   }
 `
 // Resolves
 const resolvers = {
   Query: {
-    hello() {
-      return 'Welcome to Morol'
+    me() {
+      return {
+        id: "1957",
+        name: "Morol",
+        email: "morolswediu@gmail.com"
+      }
     },
-    name() {
-      return 'Morol'
-    },
-    email() {
-      return 'morolswediu@gmail.com'
+    post() {
+      return {
+        id: "101",
+        title: "First Post",
+        body: "Good job guys!!!",
+        publish: true
+      }
     }
   }
 }
@@ -28,6 +47,7 @@ const server = new GraphQLServer({
   resolvers
 });
 
-server.start(() => {
-  console.log('Magic run on 4000 port!!!');
+const port = 3000;
+server.start({port: port}, () => {
+  console.log(`Magic run on ${port}`);
 })
