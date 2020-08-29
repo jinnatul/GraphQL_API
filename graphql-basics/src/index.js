@@ -27,19 +27,22 @@ const posts = [
     id: "101",
     title: "First Post",
     body: "Good job guys!!!",
-    publish: true
+    publish: true,
+    author: "1"
   },
   {
     id: "102",
     title: "Second Post",
     body: "Good job guys 2!!!",
-    publish: false
+    publish: false,
+    author: "2"
   },
   {
     id: "103",
     title: "Third Post",
     body: "Good job guys 3!!!",
-    publish: true
+    publish: true,
+    author: "1"
   }
 ];
 
@@ -59,6 +62,7 @@ const typeDefs = `
     name: String!
     email: String!
     age: Int
+    posts: [Post!]!
   }
 
   type Post {
@@ -66,6 +70,7 @@ const typeDefs = `
     title: String!
     body: String!
     publish: Boolean!
+    author: User!
   }
 `
 // Resolves
@@ -119,6 +124,20 @@ const resolvers = {
           return isTitleMatch || isBodyMatch
         })
       }
+    }
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author
+      })
+    }
+  },
+  User: {
+    posts(parent, args, ctx, info) {
+      return posts.filter((post) => {
+        return post.author === parent.id
+      })
     }
   }
 }
