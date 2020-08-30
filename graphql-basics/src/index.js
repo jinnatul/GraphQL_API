@@ -46,6 +46,33 @@ const posts = [
   }
 ];
 
+const comments = [
+  {
+    id: "1",
+    "text": "comment 1",
+    author: "1",
+    post: "101"
+  },
+  {
+    id: "2",
+    "text": "comment 2",
+    author: "2",
+    post: "102"
+  },
+  {
+    id: "3",
+    "text": "comment 3",
+    author: "3",
+    post: "103"
+  },
+  {
+    id: "4",
+    "text": "comment 4",
+    author: "1",
+    post: "101"
+  }
+];
+
 // Type definitions (schema)
 const typeDefs = `
   type Query {
@@ -55,6 +82,7 @@ const typeDefs = `
     users(query: String): [User!]!
     post: Post!
     posts(query: String): [Post!]!
+    comments: [Comment!]!
   }
 
   type User {
@@ -63,6 +91,7 @@ const typeDefs = `
     email: String!
     age: Int
     posts: [Post!]!
+    comments: [Comment!]!
   }
 
   type Post {
@@ -71,6 +100,14 @@ const typeDefs = `
     body: String!
     publish: Boolean!
     author: User!
+    comments: [Comment!]!
+  }
+
+  type Comment {
+    id: ID!
+    text: String!
+    author: User!
+    post: Post!
   }
 `
 // Resolves
@@ -124,6 +161,9 @@ const resolvers = {
           return isTitleMatch || isBodyMatch
         })
       }
+    },
+    comments(parent, args, ctx, info) {
+      return comments
     }
   },
   Post: {
@@ -131,12 +171,34 @@ const resolvers = {
       return users.find((user) => {
         return user.id === parent.author
       })
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.post === parent.id
+      })
+    }
+  },
+  Comment: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      })
+    },
+    post(parent, args, ctx, info) {
+      return posts.find((post) => {
+        return post.id === parent.post
+      })
     }
   },
   User: {
     posts(parent, args, ctx, info) {
       return posts.filter((post) => {
         return post.author === parent.id
+      })
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.author === parent.id;
       })
     }
   }
