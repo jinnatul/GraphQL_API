@@ -24,21 +24,21 @@ const posts = [
     id: "101",
     title: "First Post",
     body: "Good job guys!!!",
-    publish: true,
+    published: true,
     author: "1"
   },
   {
     id: "102",
     title: "Second Post",
     body: "Good job guys 2!!!",
-    publish: false,
+    published: false,
     author: "2"
   },
   {
     id: "103",
     title: "Third Post",
     body: "Good job guys 3!!!",
-    publish: true,
+    published: true,
     author: "1"
   }
 ];
