@@ -31,11 +31,39 @@ subscription {
 }
 ```
 
-### 
+### Post Subscription
 
 ```js
 * Query
+
+subscription {
+  post {
+    id
+    title
+    body
+    author {
+      name
+      email
+    }
+  }
+}
+
+
 * Response
+
+{
+  "data": {
+    "post": {
+      "id": "987561e6-4563-48a0-92a6-40faaa596598",
+      "title": "GraphQL",
+      "body": "Nice API",
+      "author": {
+        "name": "Morol",
+        "email": "morol@gmail.com"
+      }
+    }
+  }
+}
 ```
 
 ### 
